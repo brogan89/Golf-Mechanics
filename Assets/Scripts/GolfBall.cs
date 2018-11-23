@@ -9,13 +9,13 @@ public class GolfBall : MonoBehaviour
 	public Transform target;
 
 	[Header("Club Info")]
-	public float degree = 10; // driver
+	public float loft = 10; // 10 driver - 90 lobwedge
 
 	[Header("Shot")]
 	public float force = 5;
-	[Range(-1, 1)]
+	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
 	public float backspin;
-	[Range(-1, 1)]
+	[Range(-1, 1), Tooltip("-1 left, +1 right")]
 	public float sideSpin;
 
 	private bool isHit;
@@ -79,12 +79,15 @@ public class GolfBall : MonoBehaviour
 
 	public void HitBall()
 	{
+		if (isHit)
+			return;
+
 		isHit = true;
 		hitFrame = Time.frameCount;
 
 		Vector3 targetPosition = target.position;
 
-		float height = degree * force / 2f;
+		float height = loft * force / 2f;
 		targetPosition.y = height;
 
 		// get direction to target

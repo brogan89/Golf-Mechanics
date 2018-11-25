@@ -1,11 +1,13 @@
 # Golf Mechanics
 
-The purpose of this project is to learn and gain an understanding of physics in golf for simlutaor games in Unity using C#. Though the concepts could be used in any engines or language. 
+The purpose of this project is to learn about physics in golf for games in Unity using C#. However, the concepts could also be used in any engines or language.
 
-The end goal is to have a driving range scene which allows the user see shot tajectories in multiples of wind and weather types similar to [this](https://flightscope.com/products/trajectory-optimizer/) website.
-and a putting scene. I want it to achieve realistic type physics but "close enough" is also good enough.
+The end goal of this project is to have
+- A driving range scene which allows the user to see shot tajectories based on input parametres similar to [this website](https://flightscope.com/products/trajectory-optimizer/).
+- A putting scene for putting lines on different slopes.
+- [Bonus] If the first two things can even get done a single player match with a 18 hole course with score card
 
-Hopefully this project wil help others gettings started in golf simulators or mini-putt games. 
+Hopefully this project wil help others gettings started in golf simulators or mini-putt games.
 
 ## References
 - https://flightscope.com/products/trajectory-optimizer/

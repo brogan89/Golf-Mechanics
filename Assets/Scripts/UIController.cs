@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public class UIController : MonoBehaviour
 {
@@ -36,15 +37,20 @@ public class UIController : MonoBehaviour
 		hitBtn.onClick.AddListener(ball.HitBall);
 		aimToggle.onValueChanged.AddListener(ToggleCams);
 
-		spinSlider.onValueChanged.AddListener(OnSpinChanged);
-		// spinSlider.Value = new Vector2(ball.backspin, ball.sideSpin); // todo: fix box slider value.set
+		// splin
+		spinSlider.ValueX = ball.sideSpin;
+		spinSlider.ValueY = ball.backspin;
+		spinSlider.OnValueChanged.AddListener(OnSpinChanged);
 
+		// power
 		powerSlider.onValueChanged.AddListener(OnPowerChanged);
 		powerSlider.value = ball.force;
 
+		// loft
 		loftSlider.onValueChanged.AddListener(OnLoftChanged);
 		loftSlider.value = ball.loft;
 
+		// hint
 		hintText.gameObject.SetActive(false);
 	}
 
@@ -66,11 +72,13 @@ public class UIController : MonoBehaviour
 		ball.force = val;
 	}
 
-	private void OnSpinChanged(Vector2 val)
+	private void OnSpinChanged(float x, float y)
 	{
-		spinText.text = "Spin: " + val;
-		ball.backspin = val.x;
-		ball.sideSpin = val.y;
+		spinText.text = string.Format("Spin: ({0},{1})", x.ToString("0.0"), y.ToString("0.0"));
+		if (x != ball.sideSpin)
+			ball.sideSpin = x;
+		if (y != ball.backspin)
+			ball.backspin = y;
 	}
 
 	private void ToggleCams(bool isOn)

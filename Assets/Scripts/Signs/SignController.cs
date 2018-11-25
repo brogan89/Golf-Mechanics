@@ -17,10 +17,10 @@ public class SignController : MonoBehaviour
 	public Stack<GameObject> pool = new Stack<GameObject>();
 
 	// debug only
-#pragma warning disable 414
-	[SerializeField]
-	private string[] _pool;
-#pragma warning restore 414
+	// #pragma warning disable 414
+	// 	[SerializeField]
+	// 	private string[] _pool;
+	// #pragma warning restore 414
 
 	private void Start()
 	{
@@ -108,7 +108,7 @@ public class SignController : MonoBehaviour
 		}
 
 		// debug
-		_pool = pool.Select(x => x.name).ToArray();
+		// _pool = pool.Select(x => x.name).ToArray();
 	}
 
 	private bool Exists(int m)

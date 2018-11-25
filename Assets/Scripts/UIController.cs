@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -30,7 +31,10 @@ public class UIController : MonoBehaviour
 	public Text hintText;
 	private bool showHintText = true;
 
-	// Use this for initialization
+	[Space]
+	public Dropdown presetDropdown;
+	public Club[] clubPresets;
+
 	void Start()
 	{
 		resetBtn.onClick.AddListener(RestartScene);
@@ -50,8 +54,18 @@ public class UIController : MonoBehaviour
 		loftSlider.onValueChanged.AddListener(OnLoftChanged);
 		loftSlider.value = ball.loft;
 
+		// presets
+		presetDropdown.ClearOptions();
+		presetDropdown.AddOptions(clubPresets.Select(x => x.type.ToString()).ToList());
+		presetDropdown.onValueChanged.AddListener(OnPresetChanged);
+
 		// hint
 		hintText.gameObject.SetActive(false);
+	}
+
+	private void OnPresetChanged(int arg0)
+	{
+		print("preset changed " + clubPresets[arg0]);
 	}
 
 	private void RestartScene()

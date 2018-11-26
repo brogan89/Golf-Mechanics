@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class GolfBall : MonoBehaviour
@@ -9,7 +7,7 @@ public class GolfBall : MonoBehaviour
 	public Transform target;
 
 	[Header("Club Info")]
-	public float loft = 10; // 10 driver - 90 lobwedge
+	public float loft = 10; // 10 driver - 60 lob wedge
 
 	[Header("Shot")]
 	public float force = 5;
@@ -35,6 +33,7 @@ public class GolfBall : MonoBehaviour
 	void Start()
 	{
 		trail = GetComponent<TrailRenderer>();
+		trail.enabled = true;
 		rb = GetComponent<Rigidbody>();
 		startPos = transform.position;
 	}
@@ -75,6 +74,12 @@ public class GolfBall : MonoBehaviour
 		// apex
 		if (transform.position.y > apex)
 			apex = transform.position.y;
+	}
+
+	public void HitBall(Club club)
+	{
+		loft = club.loft;
+		HitBall();
 	}
 
 	public void HitBall()

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
 public class Aimer : MonoBehaviour
@@ -25,7 +23,7 @@ public class Aimer : MonoBehaviour
 
 				if (Physics.Raycast(ray, out hit, 1000, layerMask))
 				{
-					var hitPoint = hit.point;
+					Vector3 hitPoint = hit.point;
 					hitPoint.y = 0;
 					aimer.position = hitPoint;
 				}

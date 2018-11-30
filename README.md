@@ -5,9 +5,11 @@ The purpose of this project is to learn about physics in golf for games in Unity
 The end goal of this project is to have
 - A driving range scene which allows the user to see shot tajectories based on input parametres similar to [this website](https://flightscope.com/products/trajectory-optimizer/).
 - A putting scene for putting lines on different slopes.
-- [Bonus] If the first two things can even get done a single player match with a 18 hole course with score card
 
 Hopefully this project wil help others gettings started in golf simulators or mini-putt games.
+
+## Check it out
+The project can be played here http://mainframe.games/golf-mechanics/
 
 ## References
 - https://flightscope.com/products/trajectory-optimizer/

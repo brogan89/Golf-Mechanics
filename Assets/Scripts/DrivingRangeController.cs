@@ -6,10 +6,10 @@ using UnityEngine.UI.Extensions;
 
 public class DrivingRangeController : MonoBehaviour
 {
+	[Header("Ball")]
 	public GolfBall ball;
 	public GameObject ballCam;
 	public GameObject aimCam;
-
 
 	[Header("UI")]
 	public Button resetBtn;
@@ -36,7 +36,8 @@ public class DrivingRangeController : MonoBehaviour
 	void Start()
 	{
 		resetBtn.onClick.AddListener(RestartScene);
-		hitBtn.onClick.AddListener(ball.HitBall);
+		resetBtn.gameObject.SetActive(false);
+		hitBtn.onClick.AddListener(HitBall);
 		aimToggle.onValueChanged.AddListener(ToggleCams);
 
 		// splin
@@ -61,6 +62,16 @@ public class DrivingRangeController : MonoBehaviour
 		hintText.gameObject.SetActive(false);
 	}
 
+	private void HitBall()
+	{
+		ball.HitBall();
+		resetBtn.gameObject.SetActive(true);
+
+		hitBtn.gameObject.SetActive(false);
+		aimToggle.gameObject.SetActive(false);
+		presetDropdown.transform.parent.gameObject.SetActive(false);
+	}
+
 	private void OnPresetChanged(int arg0)
 	{
 		print("preset changed " + clubPresets[arg0]);
@@ -70,6 +81,11 @@ public class DrivingRangeController : MonoBehaviour
 	{
 		aimToggle.isOn = false;
 		ball.RestartScene();
+		resetBtn.gameObject.SetActive(false);
+
+		presetDropdown.transform.parent.gameObject.SetActive(true);
+		aimToggle.gameObject.SetActive(true);
+		hitBtn.gameObject.SetActive(true);
 	}
 
 	private void OnLoftChanged(float val)

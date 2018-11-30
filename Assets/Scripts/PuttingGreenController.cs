@@ -19,7 +19,6 @@ public class PuttingGreenController : MonoBehaviour
 	{
 		ballStartPosition = ball.transform.position;
 		ballStartRotation = ball.transform.rotation;
-		ball.target = FindObjectOfType<Cup>().transform;
 
 		hitButton.onClick.AddListener(HitBall);
 		resetSceneButton.onClick.AddListener(ResetBallPosition);

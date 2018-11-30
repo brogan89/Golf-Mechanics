@@ -12,7 +12,6 @@ public class DrivingRangeController : MonoBehaviour
 	public GameObject aimCam;
 
 	[Header("UI")]
-	public Button resetBtn;
 	public Button hitBtn;
 	public Toggle aimToggle;
 	[Space]
@@ -33,10 +32,11 @@ public class DrivingRangeController : MonoBehaviour
 	public Dropdown presetDropdown;
 	public Club[] clubPresets;
 
-	void Start()
+	[Header("Stats")]
+	[SerializeField] private GameObject statsPanel;
+
+	private void Start()
 	{
-		resetBtn.onClick.AddListener(RestartScene);
-		resetBtn.gameObject.SetActive(false);
 		hitBtn.onClick.AddListener(HitBall);
 		aimToggle.onValueChanged.AddListener(ToggleCams);
 
@@ -55,33 +55,43 @@ public class DrivingRangeController : MonoBehaviour
 
 		// presets
 		presetDropdown.ClearOptions();
-		presetDropdown.AddOptions(clubPresets.Select(x => x.type.ToString()).ToList());
+		presetDropdown.AddOptions(clubPresets.Select(x => x.name).ToList());
 		presetDropdown.onValueChanged.AddListener(OnPresetChanged);
+		OnPresetChanged(0);
 
 		// hint
 		hintText.gameObject.SetActive(false);
+
+		ball.onShotEnd = ShotEnd;
+		statsPanel.SetActive(false);
 	}
 
 	private void HitBall()
 	{
 		ball.HitBall();
-		resetBtn.gameObject.SetActive(true);
 
 		hitBtn.gameObject.SetActive(false);
 		aimToggle.gameObject.SetActive(false);
 		presetDropdown.transform.parent.gameObject.SetActive(false);
 	}
 
-	private void OnPresetChanged(int arg0)
+	private void ShotEnd()
 	{
-		print("preset changed " + clubPresets[arg0]);
+		statsPanel.SetActive(true);
 	}
 
-	private void RestartScene()
+	private void OnPresetChanged(int index)
+	{
+		print("preset changed " + clubPresets[index]);
+		Club club = clubPresets[index];
+		ball.loft = club.loft;
+		// ball.force = club.avgDistMax - (club.avgDistMax - club.avgDistMin);
+	}
+
+	public void RestartScene()
 	{
 		aimToggle.isOn = false;
 		ball.RestartScene();
-		resetBtn.gameObject.SetActive(false);
 
 		presetDropdown.transform.parent.gameObject.SetActive(true);
 		aimToggle.gameObject.SetActive(true);

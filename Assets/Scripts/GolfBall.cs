@@ -1,15 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class GolfBall : MonoBehaviour
 {
 	private Rigidbody rb;
-	public Transform target;
+
+	[Header("Physicals")]
+	[SerializeField] private float mass = 0.46f;
+	[SerializeField] private float radius = 2.1f;
 
 	[Header("Club Info")]
+	[Range(9f, 60f)]
 	public float loft = 10; // 10 driver - 60 lob wedge
 
 	[Header("Shot")]
+	public Vector3 direction = Vector3.forward;
 	public float force = 5;
 	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
 	public float backspin;
@@ -27,15 +33,23 @@ public class GolfBall : MonoBehaviour
 	public float distance;
 	public float sqrMagnitude;
 	public float apex;
+	public Action onShotEnd;
 
 	private TrailRenderer trail;
 
-	void Start()
+	private void Awake()
 	{
 		trail = GetComponent<TrailRenderer>();
-		trail.enabled = true;
 		rb = GetComponent<Rigidbody>();
+	}
+
+	void Start()
+	{
+		trail.enabled = true;
 		startPos = transform.position;
+
+		// physicals
+		rb.mass = mass;
 	}
 
 	private void FixedUpdate()
@@ -49,8 +63,9 @@ public class GolfBall : MonoBehaviour
 			// end shot conditions
 			if (Time.frameCount > hitFrame + 10 && sqrMagnitude < 0.25f)
 			{
-				ResetBall();
 				print("Shot end: " + distance.ToString("0.0") + "m");
+				ResetBall();
+				onShotEnd?.Invoke();
 			}
 
 			GetStats();
@@ -90,17 +105,12 @@ public class GolfBall : MonoBehaviour
 		isHit = true;
 		hitFrame = Time.frameCount;
 
-		Vector3 targetPosition = target.position;
-
-		float height = loft * force / 2f;
-		targetPosition.y = height;
-
-		// get direction to target
-		Vector3 dir = (targetPosition - transform.position).normalized;
+		float height = loft / 4f; // tmp for testing TODO: inplement calculation
+		direction.y = 0.5f;
 
 		// hit ball
-		print("Hit Ball. Dir: " + dir + ", height: " + height);
-		rb.AddForce(dir * force, ForceMode.Impulse);
+		print("Hit Ball. Dir: " + direction + ", force: " + force);
+		rb.AddForce(direction * force, ForceMode.Impulse);
 
 		// add spin
 		Vector3 spin = new Vector3(backspin, sideSpin, 0);

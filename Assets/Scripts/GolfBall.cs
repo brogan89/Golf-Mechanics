@@ -8,32 +8,34 @@ public class GolfBall : MonoBehaviour
 
 	[Header("Physicals")]
 	[SerializeField] private float mass = 0.46f;
-	[SerializeField] private float radius = 2.1f;
+	// [SerializeField] private float radius = 2.1f;
 
 	[Header("Club Info")]
 	[Range(9f, 60f)]
 	public float loft = 10; // 10 driver - 60 lob wedge
 
 	[Header("Shot")]
-	public Vector3 direction = Vector3.forward;
-	public float force = 5;
+	public Vector3 velocity = Vector3.forward;
 	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
 	public float backspin;
 	[Range(-1, 1), Tooltip("-1 left, +1 right")]
 	public float sideSpin;
 
-	private bool isHit;
-	private long hitFrame;
-	private Vector3 startPos;
-
 	public bool useMagnus;
 	public float magnusConstant = 1f;
 
 	[Header("Stats")]
+	public bool isHit;
+	private long hitFrame;
+	private Vector3 startPos;
 	public float distance;
-	public float sqrMagnitude;
+	public float magnitude;
+	public Vector3 inertiaTensor;
 	public float apex;
-	public Action onShotEnd;
+
+	// events
+	public event Action onShotEnd;
+	public event Action onShotStart;
 
 	private TrailRenderer trail;
 
@@ -61,7 +63,7 @@ public class GolfBall : MonoBehaviour
 				rb.AddForce(magnusConstant * Vector3.Cross(rb.angularVelocity, rb.velocity));
 
 			// end shot conditions
-			if (Time.frameCount > hitFrame + 10 && sqrMagnitude < 0.25f)
+			if (Time.frameCount > hitFrame + 10 && magnitude < 0.25f)
 			{
 				print("Shot end: " + distance.ToString("0.0") + "m");
 				ResetBall();
@@ -84,17 +86,12 @@ public class GolfBall : MonoBehaviour
 		distance = Vector3.Distance(transform.position, startPos);
 
 		// sqrMag
-		sqrMagnitude = rb.velocity.magnitude;
+		magnitude = rb.velocity.magnitude;
+		inertiaTensor = rb.inertiaTensor;
 
 		// apex
 		if (transform.position.y > apex)
 			apex = transform.position.y;
-	}
-
-	public void HitBall(Club club)
-	{
-		loft = club.loft;
-		HitBall();
 	}
 
 	public void HitBall()
@@ -104,17 +101,15 @@ public class GolfBall : MonoBehaviour
 
 		isHit = true;
 		hitFrame = Time.frameCount;
-
-		float height = loft / 4f; // tmp for testing TODO: inplement calculation
-		direction.y = 0.5f;
+		onShotStart?.Invoke();
 
 		// hit ball
-		print("Hit Ball. Dir: " + direction + ", force: " + force);
-		rb.AddForce(direction * force, ForceMode.Impulse);
+		print($"Hit Ball. Velocity: {velocity}");
+		rb.velocity = velocity;
 
 		// add spin
 		Vector3 spin = new Vector3(backspin, sideSpin, 0);
-		rb.AddTorque(spin * force, ForceMode.Impulse);
+		rb.angularVelocity = spin;
 	}
 
 	private void ResetBall()

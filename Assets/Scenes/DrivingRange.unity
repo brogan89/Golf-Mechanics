@@ -2357,7 +2357,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0.06801261, y: -0, z: -0, w: 0.9976845}
-  m_LocalPosition: {x: 0, y: 1.67, z: -2.24}
+  m_LocalPosition: {x: 0, y: 1.67, z: -3.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7964,7 +7964,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4621524681222248, guid: 83c9d722e04bc4e44a477bbae4f75303, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4621524681222248, guid: 83c9d722e04bc4e44a477bbae4f75303, type: 2}
       propertyPath: m_LocalRotation.x
@@ -7990,6 +7990,16 @@ Prefab:
         type: 2}
       propertyPath: m_Drag
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 96957604026197120, guid: 83c9d722e04bc4e44a477bbae4f75303,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114037433997479032, guid: 83c9d722e04bc4e44a477bbae4f75303,
+        type: 2}
+      propertyPath: useMagnus
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83c9d722e04bc4e44a477bbae4f75303, type: 2}

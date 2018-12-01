@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Camera))]
 public class Aimer : MonoBehaviour
@@ -14,10 +15,14 @@ public class Aimer : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetMouseButton(1))
+		if (aimer)
 		{
-			if (aimer)
+			if (Input.GetMouseButton(0))
 			{
+				// return if clicked on ui
+				if (EventSystem.current.IsPointerOverGameObject())
+					return;
+
 				RaycastHit hit;
 				Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 

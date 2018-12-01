@@ -47,7 +47,7 @@ public class DrivingRangeController : MonoBehaviour
 
 		// power
 		powerSlider.onValueChanged.AddListener(OnPowerChanged);
-		powerSlider.value = ball.force;
+		// powerSlider.value = ball.force;
 
 		// loft
 		loftSlider.onValueChanged.AddListener(OnLoftChanged);
@@ -62,8 +62,13 @@ public class DrivingRangeController : MonoBehaviour
 		// hint
 		hintText.gameObject.SetActive(false);
 
-		ball.onShotEnd = ShotEnd;
+		ball.onShotEnd += ShotEnd;
 		statsPanel.SetActive(false);
+	}
+
+	private void OnDestroy()
+	{
+		ball.onShotEnd -= ShotEnd;
 	}
 
 	private void HitBall()
@@ -107,7 +112,7 @@ public class DrivingRangeController : MonoBehaviour
 	private void OnPowerChanged(float val)
 	{
 		powerText.text = "Power: " + val;
-		ball.force = val;
+		// ball.force = val;
 	}
 
 	private void OnSpinChanged(float x, float y)

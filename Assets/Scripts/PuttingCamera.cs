@@ -1,0 +1,52 @@
+﻿using UnityEngine;
+
+public class PuttingCamera : MonoBehaviour
+{
+	private GolfBall ball;
+
+	private Transform pivot;
+	private float pivotH;
+
+	private void Awake()
+	{
+		ball = FindObjectOfType<GolfBall>();
+
+		ball.onShotEnd += OnShotEnd;
+		ball.onShotStart += OnShotStart;
+
+		// set up pivot
+		pivot = new GameObject("Camera Pivot").transform;
+		pivot.position = ball.transform.position;
+		this.transform.SetParent(pivot);
+	}
+
+	private void OnDestroy()
+	{
+		ball.onShotEnd -= OnShotEnd;
+		ball.onShotStart -= OnShotStart;
+	}
+
+	private void OnShotEnd()
+	{
+
+	}
+
+	private void OnShotStart()
+	{
+
+	}
+
+	private void Update()
+	{
+		if (ball.isHit)
+		{
+			pivot.position = ball.transform.position;
+		}
+
+		if (Input.GetMouseButton(1))
+		{
+			pivotH += Input.GetAxis("Mouse X");
+			pivot.eulerAngles = new Vector2(pivot.eulerAngles.x, pivotH);
+		}
+	}
+}

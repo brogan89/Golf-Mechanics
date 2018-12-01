@@ -9,8 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02391d3399edb3f44976ce387d76240a, type: 3}
-  m_Name: 3 Iron
+  m_Name: LW
   m_EditorClassIdentifier: 
-  loft: 15
-  avgDistMin: 155
-  avgDistMax: 174
+  loft: 60
+  avgDistMin: 32
+  avgDistMax: 36

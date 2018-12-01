@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 114256494397613970}
   - component: {fileID: 114748012987892590}
   m_Layer: 5
-  m_Name: Putting Green Button
+  m_Name: Mini Putt Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -702,7 +702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuButton: {fileID: 114649945734712860}
   drivingBtn: {fileID: 114298655164008356}
-  puttingBtn: {fileID: 114748012987892590}
+  miniPuttBtn: {fileID: 114748012987892590}
   cancelButton: {fileID: 114549907523532030}
   menu: {fileID: 1597909612599298}
 --- !u!114 &114640868122032538
@@ -805,7 +805,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Putting
+  m_Text: Mini Putt
 --- !u!114 &114748012987892590
 MonoBehaviour:
   m_ObjectHideFlags: 1

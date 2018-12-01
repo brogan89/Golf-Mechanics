@@ -31,6 +31,7 @@ public class DrivingRangeController : MonoBehaviour
 	[Space]
 	public Dropdown presetDropdown;
 	public Club[] clubPresets;
+	private Club currentClub;
 
 	[Header("Stats")]
 	[SerializeField] private GameObject statsPanel;
@@ -51,7 +52,7 @@ public class DrivingRangeController : MonoBehaviour
 
 		// loft
 		loftSlider.onValueChanged.AddListener(OnLoftChanged);
-		loftSlider.value = ball.loft;
+		loftSlider.value = ball.Loft;
 
 		// presets
 		presetDropdown.ClearOptions();
@@ -88,9 +89,8 @@ public class DrivingRangeController : MonoBehaviour
 	private void OnPresetChanged(int index)
 	{
 		print("preset changed " + clubPresets[index]);
-		Club club = clubPresets[index];
-		ball.loft = club.loft;
-		// ball.force = club.avgDistMax - (club.avgDistMax - club.avgDistMin);
+		currentClub = clubPresets[index];
+		loftSlider.value = currentClub.loft;
 	}
 
 	public void RestartScene()
@@ -106,18 +106,18 @@ public class DrivingRangeController : MonoBehaviour
 	private void OnLoftChanged(float val)
 	{
 		loftText.text = val + "*";
-		ball.loft = val;
+		ball.Loft = val;
 	}
 
 	private void OnPowerChanged(float val)
 	{
-		powerText.text = "Power: " + val;
-		// ball.force = val;
+		powerText.text = "Power: " + Mathf.RoundToInt(val * 100);
+		ball.force = Mathf.Lerp(currentClub.avgDistMin, currentClub.avgDistMax, val) / 5f;
 	}
 
 	private void OnSpinChanged(float x, float y)
 	{
-		spinText.text = string.Format("Spin: ({0},{1})", x.ToString("0.0"), y.ToString("0.0"));
+		spinText.text = string.Format("Spin: h{0}, v{1}", x.ToString("0.0"), y.ToString("0.0"));
 		if (x != ball.sideSpin)
 			ball.sideSpin = x;
 		if (y != ball.backspin)

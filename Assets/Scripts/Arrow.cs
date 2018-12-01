@@ -4,34 +4,38 @@ using UnityEngine.EventSystems;
 public class Arrow : MonoBehaviour
 {
 	private GolfBall ball;
-	private Camera cam;
-
-	// cache raycast info
-	private RaycastHit hit;
-	private Ray ray;
-
-	public float angle;
-	public Vector3 direction;
-	public LayerMask layerMask;
-	public Transform target;
-
-	public bool use2;
-	public bool debug;
+	private float h;
 
 	private void Awake()
 	{
 		ball = FindObjectOfType<GolfBall>();
-		cam = Camera.main;
+
+		ball.onShotStart += OnShotStart;
+		ball.onShotEnd += OnShotEnd;
+
+		ResetArrow();
 	}
 
-	private void OnEnable()
+	private void OnShotStart()
+	{
+		gameObject.SetActive(false);
+	}
+
+	private void OnShotEnd()
+	{
+		gameObject.SetActive(true);
+		ResetArrow();
+	}
+
+	private void ResetArrow()
 	{
 		Vector3 pos = ball.transform.position;
 		pos.y = 0;
 		transform.position = pos;
 
-		hit.point = Vector3.forward;
-		SetAngle();
+		var rot = transform.eulerAngles;
+		rot.y = Camera.main.transform.eulerAngles.y;
+		transform.eulerAngles = rot;
 	}
 
 	private void Update()
@@ -44,39 +48,9 @@ public class Arrow : MonoBehaviour
 				if (EventSystem.current.IsPointerOverGameObject())
 					return;
 
-				ray = cam.ScreenPointToRay(Input.mousePosition);
-				if (Physics.Raycast(ray, out hit, 1000, layerMask))
-				{
-					if (!use2)
-						SetAngle();
-					else
-						UnityExample();
-				}
+				h += Input.GetAxis("Mouse X") * 5f;
+				transform.eulerAngles = new Vector2(transform.eulerAngles.x, h);
 			}
 		}
-
-		if (debug)
-		{
-			Debug.DrawLine(transform.position, target.position, Color.red);
-			Debug.DrawLine(transform.position, hit.point, Color.blue);
-		}
-	}
-
-	private void SetAngle()
-	{
-		direction = hit.point - ball.transform.position;
-		angle = Vector3.SignedAngle(hit.point, direction, Vector3.up);
-		transform.rotation = Quaternion.Euler(Vector3.up * angle);
-		if (debug)
-			Debug.DrawLine(transform.position, target.position, Color.red);
-	}
-
-	private void UnityExample()
-	{
-		direction = target.position - transform.position;
-		angle = Vector3.SignedAngle(direction, transform.forward, Vector3.up);
-		transform.rotation = Quaternion.Euler(Vector3.up * angle);
-		if (debug)
-			Debug.DrawLine(transform.position, target.position, Color.red);
 	}
 }

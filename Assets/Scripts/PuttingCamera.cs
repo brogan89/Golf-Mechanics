@@ -45,7 +45,7 @@ public class PuttingCamera : MonoBehaviour
 
 		if (Input.GetMouseButton(1))
 		{
-			pivotH += Input.GetAxis("Mouse X");
+			pivotH += Input.GetAxis("Mouse X") * 2;
 			pivot.eulerAngles = new Vector2(pivot.eulerAngles.x, pivotH);
 		}
 	}

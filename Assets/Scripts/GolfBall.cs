@@ -12,10 +12,24 @@ public class GolfBall : MonoBehaviour
 
 	[Header("Club Info")]
 	[Range(9f, 60f)]
-	public float loft = 10; // 10 driver - 60 lob wedge
+	[SerializeField] float _loft = 10; // 10 driver - 60 lob wedge
+	public float Loft
+	{
+		get
+		{
+			return _loft;
+		}
+		set
+		{
+			_loft = value;
+			var rot = transform.eulerAngles;
+			rot.x = -value;
+			transform.eulerAngles = rot;
+		}
+	}
 
 	[Header("Shot")]
-	public Vector3 velocity = Vector3.forward;
+	public float force = 20;
 	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
 	public float backspin;
 	[Range(-1, 1), Tooltip("-1 left, +1 right")]
@@ -30,7 +44,6 @@ public class GolfBall : MonoBehaviour
 	private Vector3 startPos;
 	public float distance;
 	public float magnitude;
-	public Vector3 inertiaTensor;
 	public float apex;
 
 	// events
@@ -87,7 +100,6 @@ public class GolfBall : MonoBehaviour
 
 		// sqrMag
 		magnitude = rb.velocity.magnitude;
-		inertiaTensor = rb.inertiaTensor;
 
 		// apex
 		if (transform.position.y > apex)
@@ -104,8 +116,8 @@ public class GolfBall : MonoBehaviour
 		onShotStart?.Invoke();
 
 		// hit ball
-		print($"Hit Ball. Velocity: {velocity}");
-		rb.velocity = velocity;
+		print($"Hit Ball. Force: {force}");
+		rb.AddRelativeForce(Vector3.forward * force, ForceMode.Impulse);
 
 		// add spin
 		Vector3 spin = new Vector3(backspin, sideSpin, 0);

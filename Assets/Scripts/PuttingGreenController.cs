@@ -16,13 +16,8 @@ public class PuttingGreenController : MonoBehaviour
 	[SerializeField] private GolfBall ball;
 	[SerializeField] private Arrow arrow;
 
-	private Vector3 ballStartPosition;
-	private Quaternion ballStartRotation;
-
 	private void Start()
 	{
-		ballStartPosition = ball.transform.position;
-		ballStartRotation = ball.transform.rotation;
 		ball.onShotEnd += OnShotEnd;
 
 		hitButton.onClick.AddListener(HitBall);
@@ -34,7 +29,6 @@ public class PuttingGreenController : MonoBehaviour
 
 	private void OnSliderChanged(float value)
 	{
-		ball.velocity = arrow.direction * value;
 		powerText.text = $"Power: {value}";
 	}
 
@@ -45,20 +39,18 @@ public class PuttingGreenController : MonoBehaviour
 
 	private void HitBall()
 	{
-		ball.loft = club.loft;
-		ball.velocity = arrow.direction * powerSlider.value;
+		ball.Loft = club.loft;
+		ball.transform.rotation = arrow.transform.rotation;
+		ball.force = powerSlider.value;
 		ball.HitBall();
-		arrow.gameObject.SetActive(false);
 	}
 
 	private void OnShotEnd()
 	{
-		arrow.gameObject.SetActive(true);
 	}
 
 	private void ResetBallPosition()
 	{
-		ball.transform.position = ballStartPosition;
-		ball.transform.rotation = ballStartRotation;
+		Menu.Instance.ChangeScene(Menu.MINI_PUTT);
 	}
 }

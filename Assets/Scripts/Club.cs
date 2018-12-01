@@ -1,4 +1,9 @@
 ﻿using UnityEngine;
+/*
+
+	got loft and distance references from https://www.vaughns-1-pagers.com/sports/golf-club-data.htm
+
+ */
 
 [System.Serializable]
 [CreateAssetMenu]

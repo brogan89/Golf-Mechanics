@@ -19,13 +19,13 @@ public class Menu : MonoBehaviour
 	}
 
 	private Canvas canvas;
-	private const string DRIVING_RANGE = "DrivingRange";
-	private const string PUTTING_GREEN = "PuttingGreen";
+	public const string DRIVING_RANGE = "DrivingRange";
+	public const string MINI_PUTT = "MiniPutt";
 
 	[Header("Buttons")]
 	[SerializeField] private Button menuButton;
 	[SerializeField] private Button drivingBtn;
-	[SerializeField] private Button puttingBtn;
+	[SerializeField] private Button miniPuttBtn;
 	[SerializeField] private Button cancelButton;
 
 	[Header("Menu")]
@@ -42,7 +42,7 @@ public class Menu : MonoBehaviour
 		canvas = GetComponent<Canvas>();
 		menuButton.onClick.AddListener(() => SetMenu(true));
 		drivingBtn.onClick.AddListener(() => SceneManager.LoadScene(DRIVING_RANGE));
-		puttingBtn.onClick.AddListener(() => SceneManager.LoadScene(PUTTING_GREEN));
+		miniPuttBtn.onClick.AddListener(() => SceneManager.LoadScene(MINI_PUTT));
 		cancelButton.onClick.AddListener(() => SetMenu(false));
 		cancelButton.gameObject.SetActive(false);
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -65,15 +65,11 @@ public class Menu : MonoBehaviour
 		menu.SetActive(active);
 
 		var rootObjs = SceneManager.GetActiveScene().GetRootGameObjects();
-		print("canvas count " + rootObjs.Length);
 		foreach (var obj in rootObjs)
 		{
 			var canvas = obj.GetComponent<Canvas>();
 			if (canvas && canvas != this.canvas)
-			{
-				print($"setting {canvas.name} {!active}");
 				canvas.gameObject.SetActive(!active);
-			}
 		}
 
 		// sho
@@ -85,10 +81,10 @@ public class Menu : MonoBehaviour
 		// only show cencel button in other scenes other than first one
 		cancelButton.gameObject.SetActive(curScene.buildIndex > 0);
 		drivingBtn.gameObject.SetActive(curScene.name != DRIVING_RANGE);
-		puttingBtn.gameObject.SetActive(curScene.name != PUTTING_GREEN);
+		miniPuttBtn.gameObject.SetActive(curScene.name != MINI_PUTT);
 	}
 
-	private void ChangeScene(string sceneName)
+	public void ChangeScene(string sceneName)
 	{
 		SceneManager.LoadScene(sceneName);
 		SetMenu(false);

@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02391d3399edb3f44976ce387d76240a, type: 3}
   m_Name: 4 Iron
   m_EditorClassIdentifier: 
-  loft: 14
+  loft: 20
   avgDistMin: 146
   avgDistMax: 163

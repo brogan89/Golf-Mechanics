@@ -52,7 +52,6 @@ public class DrivingRangeController : MonoBehaviour
 
 		// loft
 		loftSlider.onValueChanged.AddListener(OnLoftChanged);
-		loftSlider.value = ball.Loft;
 
 		// presets
 		presetDropdown.ClearOptions();
@@ -106,7 +105,7 @@ public class DrivingRangeController : MonoBehaviour
 	private void OnLoftChanged(float val)
 	{
 		loftText.text = val + "*";
-		ball.Loft = val;
+		ball.SetLaunchAngle(val);
 	}
 
 	private void OnPowerChanged(float val)

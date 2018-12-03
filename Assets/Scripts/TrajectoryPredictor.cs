@@ -64,15 +64,15 @@ public class TrajectoryPredictor : MonoBehaviour
 	/// <returns></returns>
 	private LaunchData CalculateLaunchData()
 	{
-		// height = target.position.y + height;
-
 		// get displacement
 		float displacementY = target.position.y - transform.position.y;
 		Vector3 displacementXZ = new Vector3(target.position.x - transform.position.x, 0, target.position.z - transform.position.z);
 		float time = (Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity));
+
 		// get velocity
 		Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
 		Vector3 velocityXZ = displacementXZ / time;
+
 		return new LaunchData(velocityXZ + velocityY, time);
 	}
 

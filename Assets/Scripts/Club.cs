@@ -9,7 +9,7 @@
 [CreateAssetMenu]
 public class Club : ScriptableObject
 {
-	[Tooltip("Angle of club in degrees")]
+	[Range(9f, 60f), Tooltip("Angle of club in degrees")]
 	public float loft;
 	[Tooltip("Avg min distance in metres")]
 	public float avgDistMin;

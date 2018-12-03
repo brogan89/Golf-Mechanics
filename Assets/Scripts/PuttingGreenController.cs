@@ -39,7 +39,7 @@ public class PuttingGreenController : MonoBehaviour
 
 	private void HitBall()
 	{
-		ball.Loft = club.loft;
+		ball.SetLaunchAngle(club.loft);
 		ball.transform.rotation = arrow.transform.rotation;
 		ball.force = powerSlider.value;
 		ball.HitBall();

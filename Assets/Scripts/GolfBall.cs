@@ -8,27 +8,12 @@ public class GolfBall : MonoBehaviour
 
 	[Header("Physicals")]
 	[SerializeField] private float mass = 0.46f;
-	// [SerializeField] private float radius = 2.1f;
 
 	[Header("Club Info")]
-	[Range(9f, 60f)]
-	[SerializeField] float _loft = 10; // 10 driver - 60 lob wedge
-	public float Loft
-	{
-		get
-		{
-			return _loft;
-		}
-		set
-		{
-			_loft = value;
-			var rot = transform.eulerAngles;
-			rot.x = -value;
-			transform.eulerAngles = rot;
-		}
-	}
+	[SerializeField] private float clubSpeed;
 
 	[Header("Shot")]
+	public float launchAngle; // TODO: calculate launch angle
 	public float force = 20;
 	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
 	public float backspin;
@@ -137,6 +122,15 @@ public class GolfBall : MonoBehaviour
 		ResetBall();
 		transform.position = startPos;
 		transform.rotation = Quaternion.identity;
+	}
+
+	public void SetLaunchAngle(float launchAngle)
+	{
+		this.launchAngle = launchAngle;
+
+		Vector3 rot = transform.eulerAngles;
+		rot.x = -launchAngle;
+		transform.eulerAngles = rot;
 	}
 
 	private void OnCollisionEnter(Collision other)

@@ -2659,7 +2659,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 619626466}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0, y: 0.042, z: 0}
   m_LocalScale: {x: 3.2592, y: 3.2592, z: 3.2592}
   m_Children:
   - {fileID: 1747848246}
@@ -7987,19 +7987,29 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
-    - target: {fileID: 54710241074373158, guid: 83c9d722e04bc4e44a477bbae4f75303,
+    - target: {fileID: 114754685929570722, guid: 83c9d722e04bc4e44a477bbae4f75303,
         type: 2}
-      propertyPath: m_Drag
-      value: 0.2
+      propertyPath: velocity.y
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 96957604026197120, guid: 83c9d722e04bc4e44a477bbae4f75303,
+    - target: {fileID: 114754685929570722, guid: 83c9d722e04bc4e44a477bbae4f75303,
         type: 2}
-      propertyPath: m_Enabled
-      value: 1
+      propertyPath: velocity.z
+      value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 114037433997479032, guid: 83c9d722e04bc4e44a477bbae4f75303,
+    - target: {fileID: 114754685929570722, guid: 83c9d722e04bc4e44a477bbae4f75303,
         type: 2}
-      propertyPath: useMagnus
+      propertyPath: verts
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114754685929570722, guid: 83c9d722e04bc4e44a477bbae4f75303,
+        type: 2}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 800057835}
+    - target: {fileID: 114754685929570722, guid: 83c9d722e04bc4e44a477bbae4f75303,
+        type: 2}
+      propertyPath: calculateVelocity
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

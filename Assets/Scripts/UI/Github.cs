@@ -1,27 +1,23 @@
-﻿using System.Collections;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class Github : MonoBehaviour
 {
-	[SerializeField] private Button githubBtn = null;
 	[SerializeField] private Text githubStars = null;
 
-	IEnumerator GetStarGazers()
+	private IEnumerator GetStarGazers()
 	{
-		githubBtn.onClick.AddListener(() => Application.OpenURL("https://github.com/brogan89/Golf-Mechanics"));
-
 		// get star count
 		var request = UnityWebRequest.Get("https://api.github.com/repos/brogan89/Golf-Mechanics/stargazers");
-		request.SendWebRequest();
-		yield return new WaitUntil(() => request.isDone);
+		yield return request.SendWebRequest();
 		bool isError = request.isNetworkError || request.isHttpError;
 		if (!isError)
 		{
 			JArray jArray = JArray.Parse(request.downloadHandler.text);
-			print($"We have {jArray.Count} Stargazers!");
+			Debug.Log($"We have {jArray.Count} Stargazers!");
 			githubStars.text = jArray.Count.ToString();
 		}
 		else

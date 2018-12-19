@@ -1,15 +1,19 @@
-﻿using System.Collections.Generic;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
-public class Hyperlink : MonoBehaviour, IPointerClickHandler
+public class Hyperlink : MonoBehaviour, IPointerDownHandler
 {
 	private TextMeshProUGUI tmpText;
-	public List<string> linkInfo;
-
 	private Camera _camera;
+
+	public Color hoverColour = Color.blue;
+
+	[System.Serializable]
+	public class ClickEvent : UnityEvent<string> { }
+	public ClickEvent onLinkClicked = new ClickEvent();
 
 	private void Awake()
 	{
@@ -19,14 +23,13 @@ public class Hyperlink : MonoBehaviour, IPointerClickHandler
 
 	private void Update()
 	{
-		foreach (var info in tmpText.textInfo.linkInfo)
+		if (TMP_TextUtilities.IsIntersectingRectTransform(tmpText.rectTransform, Input.mousePosition, _camera))
 		{
-			if (!linkInfo.Contains(info.GetLinkID()))
-				linkInfo.Add(info.GetLinkID());
+			Debug.Log("hovering text");
 		}
 	}
 
-	public void OnPointerClick(PointerEventData eventData)
+	public void OnPointerDown(PointerEventData eventData)
 	{
 		int linkIndex = TMP_TextUtilities.FindIntersectingLink(tmpText, Input.mousePosition, _camera);
 		Debug.Log($"Click Index: {linkIndex}");
@@ -34,7 +37,7 @@ public class Hyperlink : MonoBehaviour, IPointerClickHandler
 		if (linkIndex != -1)
 		{
 			TMP_LinkInfo linkInfo = tmpText.textInfo.linkInfo[linkIndex];
-			Application.OpenURL(linkInfo.GetLinkID());
+			onLinkClicked.Invoke(linkInfo.GetLinkID());
 		}
 	}
 }

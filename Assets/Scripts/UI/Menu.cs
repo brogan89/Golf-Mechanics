@@ -23,13 +23,13 @@ public class Menu : MonoBehaviour
 	public const string MINI_PUTT = "MiniPutt";
 
 	[Header("Buttons")]
-	[SerializeField] private Button menuButton;
-	[SerializeField] private Button drivingBtn;
-	[SerializeField] private Button miniPuttBtn;
-	[SerializeField] private Button cancelButton;
+	[SerializeField] private Button menuButton = null;
+	[SerializeField] private Button drivingBtn = null;
+	[SerializeField] private Button miniPuttBtn = null;
+	[SerializeField] private Button cancelButton = null;
 
 	[Header("Menu")]
-	[SerializeField] private GameObject menu;
+	[SerializeField] private GameObject menu = null;
 
 	private void Awake()
 	{

@@ -6,10 +6,10 @@ using UnityEngine.UI;
 
 public class Github : MonoBehaviour
 {
-	[SerializeField] private Button githubBtn;
-	[SerializeField] private Text githubStars;
+	[SerializeField] private Button githubBtn = null;
+	[SerializeField] private Text githubStars = null;
 
-	IEnumerator Start()
+	IEnumerator GetStarGazers()
 	{
 		githubBtn.onClick.AddListener(() => Application.OpenURL("https://github.com/brogan89/Golf-Mechanics"));
 
@@ -33,7 +33,7 @@ public class Github : MonoBehaviour
 		if (focusStatus)
 		{
 			// check again when entering back into game
-			StartCoroutine(Start());
+			StartCoroutine(GetStarGazers());
 		}
 	}
 }

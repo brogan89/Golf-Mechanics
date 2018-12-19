@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -25,16 +24,12 @@ public class DrivingRangeController : MonoBehaviour
 	public Text loftText;
 
 	[Space]
-	public Text hintText;
-	private bool showHintText = true;
-
-	[Space]
 	public Dropdown presetDropdown;
 	public Club[] clubPresets;
 	private Club currentClub;
 
 	[Header("Stats")]
-	[SerializeField] private GameObject statsPanel;
+	[SerializeField] private GameObject statsPanel = null;
 
 	private void Start()
 	{
@@ -59,16 +54,13 @@ public class DrivingRangeController : MonoBehaviour
 		presetDropdown.onValueChanged.AddListener(OnPresetChanged);
 		OnPresetChanged(0);
 
-		// hint
-		hintText.gameObject.SetActive(false);
-
-		ball.onShotEnd += ShotEnd;
+		ball.onShotEnd.AddListener(ShotEnd);
 		statsPanel.SetActive(false);
 	}
 
 	private void OnDestroy()
 	{
-		ball.onShotEnd -= ShotEnd;
+		ball.onShotEnd.RemoveListener(ShotEnd);
 	}
 
 	private void HitBall()
@@ -87,7 +79,7 @@ public class DrivingRangeController : MonoBehaviour
 
 	private void OnPresetChanged(int index)
 	{
-		print("preset changed " + clubPresets[index]);
+		print("club preset changed " + clubPresets[index]);
 		currentClub = clubPresets[index];
 		loftSlider.value = currentClub.loft;
 	}
@@ -128,16 +120,5 @@ public class DrivingRangeController : MonoBehaviour
 		ballCam.SetActive(!isOn);
 		aimCam.SetActive(isOn);
 		hitBtn.interactable = !isOn;
-
-		hintText.gameObject.SetActive(isOn && showHintText);
-		if (hintText.gameObject.activeInHierarchy)
-			StartCoroutine(WaitForMouseClick());
-	}
-
-	IEnumerator WaitForMouseClick()
-	{
-		yield return new WaitUntil(() => Input.GetMouseButtonDown(1));
-		showHintText = false;
-		hintText.gameObject.SetActive(false);
 	}
 }

@@ -4,21 +4,21 @@ using UnityEngine.UI;
 public class PuttingGreenController : MonoBehaviour
 {
 	[Header("UI Controls")]
-	[SerializeField] private Button hitButton;
-	[SerializeField] private Button resetSceneButton;
-	[SerializeField] private Text powerText;
-	[SerializeField] private Slider powerSlider;
+	[SerializeField] private Button hitButton = null;
+	[SerializeField] private Button resetSceneButton = null;
+	[SerializeField] private Text powerText = null;
+	[SerializeField] private Slider powerSlider = null;
 
 	[Header("Putter")]
-	[SerializeField] private Club club;
+	[SerializeField] private Club club = null;
 
 	[Header("Scene Objects")]
-	[SerializeField] private GolfBall ball;
-	[SerializeField] private Arrow arrow;
+	[SerializeField] private GolfBall ball = null;
+	[SerializeField] private Arrow arrow = null;
 
 	private void Start()
 	{
-		ball.onShotEnd += OnShotEnd;
+		ball.onShotEnd.AddListener(OnShotEnd);
 
 		hitButton.onClick.AddListener(HitBall);
 		resetSceneButton.onClick.AddListener(ResetBallPosition);
@@ -34,7 +34,7 @@ public class PuttingGreenController : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		ball.onShotEnd -= OnShotEnd;
+		ball.onShotEnd.RemoveListener(OnShotEnd);
 	}
 
 	private void HitBall()

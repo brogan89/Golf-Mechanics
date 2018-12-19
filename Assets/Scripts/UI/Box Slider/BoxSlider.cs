@@ -138,10 +138,11 @@ namespace UnityEngine.UI.Extensions
 			SetY(m_ValueY, false);
 			// Update rects since other things might affect them even if value didn't change.
 			if (!Application.isPlaying) UpdateVisuals();
-
+#pragma warning disable 618
 			var prefabType = UnityEditor.PrefabUtility.GetPrefabType(this);
 			if (prefabType != UnityEditor.PrefabType.Prefab && !Application.isPlaying)
 				CanvasUpdateRegistry.RegisterCanvasElementForLayoutRebuild(this);
+#pragma warning restore 618
 		}
 
 #endif // if UNITY_EDITOR

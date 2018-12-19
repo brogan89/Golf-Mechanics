@@ -10,8 +10,8 @@ public class Arrow : MonoBehaviour
 	{
 		ball = FindObjectOfType<GolfBall>();
 
-		ball.onShotStart += OnShotStart;
-		ball.onShotEnd += OnShotEnd;
+		ball.onShotStart.AddListener(OnShotStart);
+		ball.onShotEnd.AddListener(OnShotEnd);
 
 		ResetArrow();
 	}

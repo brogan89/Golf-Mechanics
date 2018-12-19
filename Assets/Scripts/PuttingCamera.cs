@@ -11,8 +11,8 @@ public class PuttingCamera : MonoBehaviour
 	{
 		ball = FindObjectOfType<GolfBall>();
 
-		ball.onShotEnd += OnShotEnd;
-		ball.onShotStart += OnShotStart;
+		ball.onShotEnd.AddListener(OnShotEnd);
+		ball.onShotStart.AddListener(OnShotStart);
 
 		// set up pivot
 		pivot = new GameObject("Camera Pivot").transform;
@@ -22,8 +22,8 @@ public class PuttingCamera : MonoBehaviour
 
 	private void OnDestroy()
 	{
-		ball.onShotEnd -= OnShotEnd;
-		ball.onShotStart -= OnShotStart;
+		ball.onShotEnd.RemoveListener(OnShotEnd);
+		ball.onShotStart.RemoveListener(OnShotStart);
 	}
 
 	private void OnShotEnd()

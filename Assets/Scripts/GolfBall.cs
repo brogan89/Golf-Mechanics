@@ -1,5 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class GolfBall : MonoBehaviour
@@ -32,20 +32,17 @@ public class GolfBall : MonoBehaviour
 	public float apex;
 
 	// events
-	public event Action onShotEnd;
-	public event Action onShotStart;
-
-	private TrailRenderer trail;
+	public UnityEvent onShotStart = new UnityEvent();
+	public UnityEvent onShotEnd = new UnityEvent();
 
 	private void Awake()
 	{
-		trail = GetComponent<TrailRenderer>();
 		rb = GetComponent<Rigidbody>();
 	}
 
-	void Start()
+	private void Start()
 	{
-		trail.enabled = true;
+		//trail.enabled = true;
 		startPos = transform.position;
 
 		// physicals
@@ -69,12 +66,6 @@ public class GolfBall : MonoBehaviour
 			}
 
 			GetStats();
-		}
-		else
-		{
-			// clean up trail
-			if (trail.positionCount > 0)
-				trail.Clear();
 		}
 	}
 

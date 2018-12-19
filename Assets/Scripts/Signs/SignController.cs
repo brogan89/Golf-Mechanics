@@ -12,15 +12,9 @@ public class SignController : MonoBehaviour
 	public int interval = 25;
 	public float width = 10;
 	[SerializeField]
-	private Sign signPrefab;
+	private Sign signPrefab = null;
 
 	public Stack<GameObject> pool = new Stack<GameObject>();
-
-	// debug only
-	// #pragma warning disable 414
-	// 	[SerializeField]
-	// 	private string[] _pool;
-	// #pragma warning restore 414
 
 	private void Start()
 	{
@@ -106,9 +100,6 @@ public class SignController : MonoBehaviour
 				DestroyImmediate(go);
 			}
 		}
-
-		// debug
-		// _pool = pool.Select(x => x.name).ToArray();
 	}
 
 	private bool Exists(int m)

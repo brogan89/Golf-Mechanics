@@ -1,8 +1,9 @@
 {
   "dependencies": {
-    "com.unity.ads": "2.0.8",
-    "com.unity.analytics": "2.0.16",
-    "com.unity.package-manager-ui": "1.9.11",
+    "com.unity.ads": "2.3.1",
+    "com.unity.analytics": "3.2.2",
+    "com.unity.collab-proxy": "1.2.15",
+    "com.unity.package-manager-ui": "2.0.3",
     "com.unity.probuilder": "3.0.9",
     "com.unity.progrids": "3.0.3-preview.0",
     "com.unity.purchasing": "2.0.3",

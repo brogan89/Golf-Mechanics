@@ -14,7 +14,6 @@ public class PuttingGreenController : MonoBehaviour
 
 	[Header("Scene Objects")]
 	[SerializeField] private GolfBall ball = null;
-	[SerializeField] private Arrow arrow = null;
 
 	private void Start()
 	{
@@ -40,7 +39,6 @@ public class PuttingGreenController : MonoBehaviour
 	private void HitBall()
 	{
 		ball.SetLaunchAngle(club.loft);
-		ball.transform.rotation = arrow.transform.rotation;
 		ball.force = powerSlider.value;
 		ball.HitBall();
 	}

@@ -15,7 +15,7 @@ public class GolfBall : MonoBehaviour
 	[Header("Shot")]
 	public float launchAngle; // TODO: calculate launch angle
 	public float force = 20;
-	[Range(-1, 1), Tooltip("-1 backspeed,+1 topspin")]
+	[Range(-1, 1), Tooltip("-1 backspin,+1 topspin")]
 	public float backspin;
 	[Range(-1, 1), Tooltip("-1 left, +1 right")]
 	public float sideSpin;
@@ -51,22 +51,22 @@ public class GolfBall : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if (isHit)
+		if (!isHit)
+			return;
+
+		// magnus effect
+		if (useMagnus)
+			rb.AddForce(magnusConstant * Vector3.Cross(rb.angularVelocity, rb.velocity));
+
+		// end shot conditions
+		if (Time.frameCount > hitFrame + 10 && magnitude < 0.25f)
 		{
-			// magnus effect
-			if (useMagnus)
-				rb.AddForce(magnusConstant * Vector3.Cross(rb.angularVelocity, rb.velocity));
-
-			// end shot conditions
-			if (Time.frameCount > hitFrame + 10 && magnitude < 0.25f)
-			{
-				print("Shot end: " + distance.ToString("0.0") + "m");
-				ResetBall();
-				onShotEnd?.Invoke();
-			}
-
-			GetStats();
+			print("Shot end: " + distance.ToString("0.0") + "m");
+			ResetBall();
+			onShotEnd?.Invoke();
 		}
+
+		GetStats();
 	}
 
 	private void GetStats()
@@ -96,7 +96,7 @@ public class GolfBall : MonoBehaviour
 		rb.AddRelativeForce(Vector3.forward * force, ForceMode.Impulse);
 
 		// add spin
-		Vector3 spin = new Vector3(backspin, sideSpin, 0);
+		var spin = new Vector3(backspin, sideSpin, 0);
 		rb.angularVelocity = spin;
 	}
 
@@ -119,7 +119,7 @@ public class GolfBall : MonoBehaviour
 	{
 		this.launchAngle = launchAngle;
 
-		Vector3 rot = transform.eulerAngles;
+		var rot = transform.eulerAngles;
 		rot.x = -launchAngle;
 		transform.eulerAngles = rot;
 	}

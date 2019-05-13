@@ -36,7 +36,7 @@ public class DrivingRangeController : MonoBehaviour
 		hitBtn.onClick.AddListener(HitBall);
 		aimToggle.onValueChanged.AddListener(ToggleCams);
 
-		// splin
+		// spin
 		spinSlider.ValueX = ball.sideSpin;
 		spinSlider.ValueY = ball.backspin;
 		spinSlider.OnValueChanged.AddListener(OnSpinChanged);
@@ -108,7 +108,7 @@ public class DrivingRangeController : MonoBehaviour
 
 	private void OnSpinChanged(float x, float y)
 	{
-		spinText.text = string.Format("Spin: h{0}, v{1}", x.ToString("0.0"), y.ToString("0.0"));
+		spinText.text = $"Spin: h{x:0.0}, v{y:0.0}";
 		if (x != ball.sideSpin)
 			ball.sideSpin = x;
 		if (y != ball.backspin)

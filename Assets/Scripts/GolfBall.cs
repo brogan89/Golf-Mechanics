@@ -6,9 +6,6 @@ public class GolfBall : MonoBehaviour
 {
 	private Rigidbody rb;
 
-	[Header("Physicals")]
-	[SerializeField] private float mass = 0.46f;
-
 	[Header("Club Info")]
 	[SerializeField] private float clubSpeed;
 
@@ -44,9 +41,6 @@ public class GolfBall : MonoBehaviour
 	{
 		//trail.enabled = true;
 		startPos = transform.position;
-
-		// physicals
-		rb.mass = mass;
 	}
 
 	private void FixedUpdate()

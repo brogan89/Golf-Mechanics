@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /*
-	Equations srouced from: https://youtu.be/IvT8hjy6q4o
+ * src: https://youtu.be/IvT8hjy6q4o
  */
 
 [RequireComponent(typeof(LineRenderer))]
@@ -9,6 +9,7 @@ public class TrajectoryPredictor : MonoBehaviour
 {
 	private LineRenderer lineRenderer;
 
+	public Transform start;
 	public Transform target;
 
 	public int resolution = 20;
@@ -58,16 +59,15 @@ public class TrajectoryPredictor : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns the initial velocity based on target positon and given height
+	/// Returns the initial velocity based on target position and given height
 	/// </summary>
-	/// <param name="target"></param>
 	/// <returns></returns>
 	private LaunchData CalculateLaunchData()
 	{
 		// get displacement
-		float displacementY = target.position.y - transform.position.y;
-		Vector3 displacementXZ = new Vector3(target.position.x - transform.position.x, 0, target.position.z - transform.position.z);
-		float time = (Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity));
+		float displacementY = target.position.y - start.position.y;
+		Vector3 displacementXZ = new Vector3(target.position.x - start.position.x, 0, target.position.z - start.position.z);
+		float time = Mathf.Sqrt(-2 * height / gravity) + Mathf.Sqrt(2 * (displacementY - height) / gravity);
 
 		// get velocity
 		Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * height);
@@ -81,7 +81,7 @@ public class TrajectoryPredictor : MonoBehaviour
 		internal readonly Vector3 initialVelocity;
 		internal readonly float timeToTarget;
 
-		public LaunchData(Vector3 initialVelocity, float timeToTarget)
+		internal LaunchData(Vector3 initialVelocity, float timeToTarget)
 		{
 			this.initialVelocity = initialVelocity;
 			this.timeToTarget = timeToTarget;

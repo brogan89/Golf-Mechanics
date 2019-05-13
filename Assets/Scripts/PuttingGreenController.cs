@@ -4,10 +4,8 @@ using UnityEngine.UI;
 public class PuttingGreenController : MonoBehaviour
 {
 	[Header("UI Controls")]
-	[SerializeField] private Button hitButton = null;
+	[SerializeField] private PowerUpButton powerButton = null;
 	[SerializeField] private Button resetSceneButton = null;
-	[SerializeField] private Text powerText = null;
-	[SerializeField] private Slider powerSlider = null;
 
 	[Header("Putter")]
 	[SerializeField] private Club club = null;
@@ -18,17 +16,8 @@ public class PuttingGreenController : MonoBehaviour
 	private void Start()
 	{
 		ball.onShotEnd.AddListener(OnShotEnd);
-
-		hitButton.onClick.AddListener(HitBall);
+		powerButton.onHit = HitBall;
 		resetSceneButton.onClick.AddListener(ResetBallPosition);
-
-		powerSlider.onValueChanged.AddListener(OnSliderChanged);
-		powerSlider.value = 20;
-	}
-
-	private void OnSliderChanged(float value)
-	{
-		powerText.text = $"Power: {value}";
 	}
 
 	private void OnDestroy()
@@ -39,7 +28,7 @@ public class PuttingGreenController : MonoBehaviour
 	private void HitBall()
 	{
 		ball.SetLaunchAngle(club.loft);
-		ball.force = powerSlider.value;
+		ball.force = powerButton.power;
 		ball.HitBall();
 	}
 

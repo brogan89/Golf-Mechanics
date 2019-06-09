@@ -11,7 +11,7 @@ public class PowerUpButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandl
 	public Image fillImage;
 	public TextMeshProUGUI powerText;
 	public float power;
-	public float maxPower = 30;
+	public float maxPower = 100;
 
 	private float t;
 	public Action onHit;

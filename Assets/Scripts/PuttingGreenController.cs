@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PuttingGreenController : MonoBehaviour
@@ -12,12 +13,21 @@ public class PuttingGreenController : MonoBehaviour
 
 	[Header("Scene Objects")]
 	[SerializeField] private GolfBall ball = null;
+	[SerializeField] private Cup cup = null;
+
+	private int shotCount;
 
 	private void Start()
 	{
 		ball.onShotEnd.AddListener(OnShotEnd);
 		powerButton.onHit = HitBall;
 		resetSceneButton.onClick.AddListener(ResetBallPosition);
+		cup.onBallEnterCup.AddListener(OnEndHole);
+	}
+
+	private void OnEndHole()
+	{
+		Debug.Log($"Shot count: {shotCount}");
 	}
 
 	private void OnDestroy()
@@ -30,14 +40,15 @@ public class PuttingGreenController : MonoBehaviour
 		ball.SetLaunchAngle(club.loft);
 		ball.force = powerButton.power;
 		ball.HitBall();
+		shotCount++;
 	}
 
 	private void OnShotEnd()
 	{
 	}
 
-	private void ResetBallPosition()
+	private static void ResetBallPosition()
 	{
-		Menu.Instance.ChangeScene(Menu.MINI_PUTT);
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 }

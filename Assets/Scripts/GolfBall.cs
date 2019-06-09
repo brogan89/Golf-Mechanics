@@ -52,15 +52,15 @@ public class GolfBall : MonoBehaviour
 		if (useMagnus)
 			rb.AddForce(magnusConstant * Vector3.Cross(rb.angularVelocity, rb.velocity));
 
+		GetStats();
+
 		// end shot conditions
 		if (Time.frameCount > hitFrame + 10 && magnitude < 0.25f)
 		{
-			print("Shot end: " + distance.ToString("0.0") + "m");
+			Debug.Log($"Shot end: {distance:0.0}m");
 			ResetBall();
 			onShotEnd?.Invoke();
 		}
-
-		GetStats();
 	}
 
 	private void GetStats()
@@ -81,6 +81,7 @@ public class GolfBall : MonoBehaviour
 		if (isHit)
 			return;
 
+		startPos = transform.position;
 		isHit = true;
 		hitFrame = Time.frameCount;
 		onShotStart?.Invoke();
@@ -92,6 +93,7 @@ public class GolfBall : MonoBehaviour
 		// add spin
 		var spin = new Vector3(backspin, sideSpin, 0);
 		rb.angularVelocity = spin;
+
 	}
 
 	private void ResetBall()

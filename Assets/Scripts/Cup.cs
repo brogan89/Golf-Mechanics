@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 public class Cup : MonoBehaviour
 {
-	public SphereTriggerComponent trigger;
+	public UnityEvent onBallEnterCup = new UnityEvent();
 
-	private void Start()
+	private void OnTriggerEnter(Collider col)
 	{
-		trigger.onTriggerEnter.AddListener(OnEnter);
-	}
+		if (!col.CompareTag("Ball"))
+			return;
 
-	private void OnEnter(Collider collider)
-	{
-		print(collider.name + " entered cup");
+		Debug.Log("Ball in hole");
+		onBallEnterCup?.Invoke();
 	}
 }

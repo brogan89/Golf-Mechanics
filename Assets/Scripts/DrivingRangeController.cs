@@ -36,23 +36,25 @@ public class DrivingRangeController : MonoBehaviour
 		hitBtn.onClick.AddListener(HitBall);
 		aimToggle.onValueChanged.AddListener(ToggleCams);
 
-		// spin
-		spinSlider.ValueX = ball.sideSpin;
-		spinSlider.ValueY = ball.backspin;
-		spinSlider.OnValueChanged.AddListener(OnSpinChanged);
-
-		// power
-		powerSlider.onValueChanged.AddListener(OnPowerChanged);
-		// powerSlider.value = ball.force;
-
-		// loft
-		loftSlider.onValueChanged.AddListener(OnLoftChanged);
-
 		// presets
 		presetDropdown.ClearOptions();
 		presetDropdown.AddOptions(clubPresets.Select(x => x.name).ToList());
 		presetDropdown.onValueChanged.AddListener(OnPresetChanged);
 		OnPresetChanged(0);
+
+		// spin
+		spinSlider.ValueX = ball.sideSpin;
+		spinSlider.ValueY = ball.backspin;
+		spinSlider.OnValueChanged.AddListener(OnSpinChanged);
+		OnSpinChanged(spinSlider.ValueX, spinSlider.ValueY);
+
+		// power
+		powerSlider.onValueChanged.AddListener(OnPowerChanged);
+		OnPowerChanged(powerSlider.value);
+
+		// loft
+		loftSlider.onValueChanged.AddListener(OnLoftChanged);
+		OnLoftChanged(loftSlider.value);
 
 		ball.onShotEnd.AddListener(ShotEnd);
 		statsPanel.SetActive(false);
@@ -79,7 +81,7 @@ public class DrivingRangeController : MonoBehaviour
 
 	private void OnPresetChanged(int index)
 	{
-		print("club preset changed " + clubPresets[index]);
+		Debug.Log("club preset changed " + clubPresets[index]);
 		currentClub = clubPresets[index];
 		loftSlider.value = currentClub.loft;
 	}
@@ -103,7 +105,7 @@ public class DrivingRangeController : MonoBehaviour
 	private void OnPowerChanged(float val)
 	{
 		powerText.text = "Power: " + Mathf.RoundToInt(val * 100);
-		ball.force = Mathf.Lerp(currentClub.avgDistMin, currentClub.avgDistMax, val) / 5f;
+		ball.force = Mathf.Lerp(currentClub.avgDistMin, currentClub.avgDistMax, val) * 0.75f;
 	}
 
 	private void OnSpinChanged(float x, float y)

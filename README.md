@@ -14,7 +14,6 @@ The project can be played here http://mainframe.games/golf-mechanics/
 ## References
 - https://flightscope.com/products/trajectory-optimizer/
 - https://www.golf-simulators.com/physics.htm
-- http://home2.fvcc.edu/~dhicketh/DiffEqns/Spring11projects/Brett_Burglund_Ryan_Street/Diff%20Q/pdfscreen/projectoutline.pdf
 
 # Screen Shots
 Mini-Putt

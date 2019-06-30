@@ -4,13 +4,9 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Rigidbody))]
 public class GolfBall : MonoBehaviour
 {
-	private Rigidbody rb;
-
-	[Header("Club Info")]
-	[SerializeField] private float clubSpeed;
+	private new Rigidbody rigidbody;
 
 	[Header("Shot")]
-	public float launchAngle; // TODO: calculate launch angle
 	public float force = 20;
 	[Range(-1, 1), Tooltip("-1 backspin,+1 topspin")]
 	public float backspin;
@@ -22,11 +18,11 @@ public class GolfBall : MonoBehaviour
 
 	[Header("Stats")]
 	public bool isHit;
+	public BallStats stats;
+
+	// internal stats
 	private long hitFrame;
 	private Vector3 startPos;
-	public float distance;
-	public float magnitude;
-	public float apex;
 
 	// events
 	public UnityEvent onShotStart = new UnityEvent();
@@ -34,12 +30,11 @@ public class GolfBall : MonoBehaviour
 
 	private void Awake()
 	{
-		rb = GetComponent<Rigidbody>();
+		rigidbody = GetComponent<Rigidbody>();
 	}
 
 	private void Start()
 	{
-		//trail.enabled = true;
 		startPos = transform.position;
 	}
 
@@ -50,30 +45,25 @@ public class GolfBall : MonoBehaviour
 
 		// magnus effect
 		if (useMagnus)
-			rb.AddForce(magnusConstant * Vector3.Cross(rb.angularVelocity, rb.velocity));
-
-		GetStats();
+			rigidbody.AddForce(magnusConstant * Vector3.Cross(rigidbody.angularVelocity, rigidbody.velocity));
 
 		// end shot conditions
-		if (Time.frameCount > hitFrame + 10 && magnitude < 0.25f)
+		if (Time.frameCount > hitFrame + 10 && rigidbody.velocity.magnitude < 0.25f)
 		{
-			Debug.Log($"Shot end: {distance:0.0}m");
-			ResetBall();
+			Debug.Log($"Shot end: {stats}");
+			isHit = false;
+			rigidbody.velocity = Vector3.zero;
+			rigidbody.angularVelocity = Vector3.zero;
 			onShotEnd?.Invoke();
+			return;
 		}
-	}
 
-	private void GetStats()
-	{
 		// dist
-		distance = Vector3.Distance(transform.position, startPos);
-
-		// sqrMag
-		magnitude = rb.velocity.magnitude;
+		stats.distance = Vector3.Distance(transform.position, startPos);
 
 		// apex
-		if (transform.position.y > apex)
-			apex = transform.position.y;
+		if (transform.position.y > stats.height)
+			stats.height = transform.position.y;
 	}
 
 	public void HitBall()
@@ -87,44 +77,17 @@ public class GolfBall : MonoBehaviour
 		onShotStart?.Invoke();
 
 		// hit ball
-		print($"Hit Ball. Force: {force}");
-		rb.AddRelativeForce(Vector3.forward * force, ForceMode.Impulse);
+		rigidbody.AddRelativeForce(Vector3.forward * force, ForceMode.Impulse);
 
 		// add spin
 		var spin = new Vector3(backspin, sideSpin, 0);
-		rb.angularVelocity = spin;
-
-	}
-
-	private void ResetBall()
-	{
-		isHit = false;
-		rb.velocity = Vector3.zero;
-		rb.angularVelocity = Vector3.zero;
-		apex = 0;
-	}
-
-	public void RestartScene()
-	{
-		ResetBall();
-		transform.position = startPos;
-		transform.rotation = Quaternion.identity;
+		rigidbody.AddRelativeTorque(spin, ForceMode.Impulse);
 	}
 
 	public void SetLaunchAngle(float launchAngle)
 	{
-		this.launchAngle = launchAngle;
-
 		var rot = transform.eulerAngles;
 		rot.x = -launchAngle;
 		transform.eulerAngles = rot;
-	}
-
-	private void OnCollisionEnter(Collision other)
-	{
-		if (other.gameObject.name == "Ground")
-		{
-			// print("hit ground");
-		}
 	}
 }

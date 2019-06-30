@@ -11,10 +11,6 @@ Hopefully this project wil help others gettings started in golf simulators or mi
 ## Check it out
 The project can be played here http://mainframe.games/golf-mechanics/
 
-## References
-- https://flightscope.com/products/trajectory-optimizer/
-- https://www.golf-simulators.com/physics.htm
-
 # Screen Shots
 Mini-Putt
 ![mini-putt](mini-putt.png)

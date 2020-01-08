@@ -9,7 +9,7 @@ The end goal of this project is to have
 Hopefully this project wil help others getting started in golf simulators or mini-putt games.
 
 ## Check it out
-The project can be played here http://mainframe.games/golf-mechanics/
+The project can be played here https://brogan89.github.io/Golf-Mechanics/
 
 # Screen Shots
 Mini-Putt

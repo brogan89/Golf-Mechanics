@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Camera))]
-public class Aimer : MonoBehaviour
+public class AimCam : MonoBehaviour
 {
 	private new Camera camera;
 	public Transform aimer;
@@ -27,16 +27,21 @@ public class Aimer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		if (pivot)
-			pivot.position = aimer.position;
+		UpdatePosition();
 	}
-
+	
 	private void Update()
 	{
 		MoveTarget();
 		Movement();
 		Rotation();
 		Zoom();
+	}
+
+	public void UpdatePosition()
+	{
+		if (pivot)
+			pivot.position = aimer.position;
 	}
 
 	private void MoveTarget()

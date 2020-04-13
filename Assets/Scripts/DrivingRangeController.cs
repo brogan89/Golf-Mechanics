@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using JetBrains.Annotations;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
@@ -9,7 +9,8 @@ public class DrivingRangeController : MonoBehaviour
 	[Header("Ball")]
 	[SerializeField] private GolfBall ball = null;
 	[SerializeField] private GameObject ballCam = null;
-	[SerializeField] private GameObject aimCam = null;
+	[SerializeField] private AimCam aimCam = null;
+	[SerializeField] private Transform aimTarget = null;	
 
 	[Header("UI")]
 	[SerializeField] private Button hitBtn = null;
@@ -22,10 +23,6 @@ public class DrivingRangeController : MonoBehaviour
 	[Space]
 	[SerializeField] private Slider powerSlider = null;
 	[SerializeField] private Text powerText = null;
-	
-	[Space]
-	[SerializeField] private Slider loftSlider = null;
-	[SerializeField] private Text loftText = null;
 	
 	[Space]
 	[SerializeField] private Toggle followCamButton = null;	
@@ -56,15 +53,12 @@ public class DrivingRangeController : MonoBehaviour
 		OnSpinChanged(spinSlider.ValueX, spinSlider.ValueY);
 
 		// power
-		powerSlider.minValue = 100;
-		powerSlider.maxValue = 210;
-		powerSlider.value = powerSlider.maxValue;
+		powerSlider.minValue = 0;
+		powerSlider.maxValue = 1;
+		powerSlider.wholeNumbers = false;
+		powerSlider.value = 0.9f;
 		powerSlider.onValueChanged.AddListener(OnPowerChanged);
 		OnPowerChanged(powerSlider.value);
-
-		// loft
-		loftSlider.onValueChanged.AddListener(OnLoftChanged);
-		OnLoftChanged(loftSlider.value);
 
 		ball.onShotEnd.AddListener(ShotEnd);
 		statsPanel.gameObject.SetActive(false);
@@ -78,6 +72,7 @@ public class DrivingRangeController : MonoBehaviour
 
 	private void HitBall()
 	{
+		ball.force = Mathf.Lerp(currentClub.avgDistMin, currentClub.avgDistMax, powerSlider.value);
 		ball.HitBall();
 
 		hitBtn.gameObject.SetActive(false);
@@ -96,7 +91,14 @@ public class DrivingRangeController : MonoBehaviour
 	{
 		Debug.Log("club preset changed " + clubPresets[index]);
 		currentClub = clubPresets[index];
-		loftSlider.value = currentClub.loft;
+		
+		// set ball angle
+		ball.SetLaunchAngle(currentClub.loft);
+		
+		// set aimTarget position
+		var dist = Mathf.Lerp(currentClub.avgDistMin, currentClub.avgDistMax, powerSlider.value);
+		aimTarget.transform.position = new Vector3(0, 0, dist);
+		aimCam.UpdatePosition();
 	}
 
 	private void RestartScene()
@@ -112,34 +114,28 @@ public class DrivingRangeController : MonoBehaviour
 		followCamButton.gameObject.SetActive(true);
 
 		// reset values
-		OnLoftChanged(loftSlider.value);
-	}
-
-	private void OnLoftChanged(float val)
-	{
-		loftText.text = val + "*";
-		ball.SetLaunchAngle(val);
+		OnPresetChanged(Array.IndexOf(clubPresets, currentClub));
 	}
 
 	private void OnPowerChanged(float val)
 	{
-		powerText.text = val.ToString("0");
-		ball.force = val;
+		powerText.text = (val * 100).ToString("0");
 	}
 
 	private void OnSpinChanged(float x, float y)
 	{
 		spinText.text = $"Spin: h{x:0.0}, v{y:0.0}";
-		if (x != ball.sideSpin)
+		
+		if (Math.Abs(x - ball.sideSpin) > 0.01f)
 			ball.sideSpin = x;
-		if (y != ball.backspin)
+		if (Math.Abs(y - ball.backspin) > 0.01f)
 			ball.backspin = y;
 	}
 
 	private void ToggleCams(bool isOn)
 	{
 		ballCam.SetActive(!isOn);
-		aimCam.SetActive(isOn);
+		aimCam.gameObject.SetActive(isOn);
 		hitBtn.interactable = !isOn;
 	}
 }

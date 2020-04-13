@@ -7,26 +7,32 @@ using UnityEngine.UI.Extensions;
 public class DrivingRangeController : MonoBehaviour
 {
 	[Header("Ball")]
-	public GolfBall ball;
-	public GameObject ballCam;
-	public GameObject aimCam;
+	[SerializeField] private GolfBall ball = null;
+	[SerializeField] private GameObject ballCam = null;
+	[SerializeField] private GameObject aimCam = null;
 
 	[Header("UI")]
-	public Button hitBtn;
-	public Toggle aimToggle;
+	[SerializeField] private Button hitBtn = null;
+	[SerializeField] private Toggle aimToggle = null;
+	
 	[Space]
-	public BoxSlider spinSlider;
-	public Text spinText;
+	[SerializeField] private BoxSlider spinSlider = null;
+	[SerializeField] private Text spinText = null;
+	
 	[Space]
-	public Slider powerSlider;
-	public Text powerText;
+	[SerializeField] private Slider powerSlider = null;
+	[SerializeField] private Text powerText = null;
+	
 	[Space]
-	public Slider loftSlider;
-	public Text loftText;
-
+	[SerializeField] private Slider loftSlider = null;
+	[SerializeField] private Text loftText = null;
+	
 	[Space]
-	public Dropdown presetDropdown;
-	public Club[] clubPresets;
+	[SerializeField] private Toggle followCamButton = null;	
+	
+	[Space]
+	[SerializeField] private Dropdown presetDropdown = null;
+	[SerializeField] private Club[] clubPresets = null;
 	private Club currentClub;
 
 	[Header("Stats")]
@@ -77,6 +83,7 @@ public class DrivingRangeController : MonoBehaviour
 		hitBtn.gameObject.SetActive(false);
 		aimToggle.gameObject.SetActive(false);
 		presetDropdown.transform.parent.gameObject.SetActive(false);
+		followCamButton.gameObject.SetActive(false);
 	}
 
 	private void ShotEnd()
@@ -102,6 +109,7 @@ public class DrivingRangeController : MonoBehaviour
 		presetDropdown.transform.parent.gameObject.SetActive(true);
 		aimToggle.gameObject.SetActive(true);
 		hitBtn.gameObject.SetActive(true);
+		followCamButton.gameObject.SetActive(true);
 
 		// reset values
 		OnLoftChanged(loftSlider.value);

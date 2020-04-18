@@ -11,6 +11,11 @@ public class Cup : MonoBehaviour
 			return;
 
 		Debug.Log("Ball in hole");
+		
+		// destroy ball
+		Destroy(col.gameObject);
+		
+		// event
 		onBallEnterCup?.Invoke();
 	}
 }

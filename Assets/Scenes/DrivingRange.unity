@@ -697,7 +697,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 1.3325205e+37, y: 6.80003e-33, z: 1.3555853e-19, w: 1.3563156e-19}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -6637,16 +6637,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 54710241074373158, guid: 83c9d722e04bc4e44a477bbae4f75303,
-        type: 3}
-      propertyPath: m_Mass
-      value: 1.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 54710241074373158, guid: 83c9d722e04bc4e44a477bbae4f75303,
-        type: 3}
-      propertyPath: m_Drag
-      value: 0.7
-      objectReference: {fileID: 0}
     - target: {fileID: 114037433997479032, guid: 83c9d722e04bc4e44a477bbae4f75303,
         type: 3}
       propertyPath: onShotStart.m_PersistentCalls.m_Calls.Array.size
@@ -6716,11 +6706,6 @@ PrefabInstance:
         type: 3}
       propertyPath: onShotEnd.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_BoolArgument
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114037433997479032, guid: 83c9d722e04bc4e44a477bbae4f75303,
-        type: 3}
-      propertyPath: magnusConstant
-      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 114037433997479032, guid: 83c9d722e04bc4e44a477bbae4f75303,
         type: 3}

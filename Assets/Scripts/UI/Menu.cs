@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour
 {
 	private static Menu _instance;
-	public static Menu Instance
+
+	private static Menu Instance
 	{
 		get
 		{
@@ -19,8 +20,8 @@ public class Menu : MonoBehaviour
 	}
 
 	private Canvas canvas;
-	public const string DRIVING_RANGE = "DrivingRange";
-	public const string MINI_PUTT = "MiniPutt";
+	private const string DRIVING_RANGE = "DrivingRange";
+	private const string MINI_PUTT = "mini_main_1";
 
 	[Header("Buttons")]
 	[SerializeField] private Button menuButton = null;
@@ -34,7 +35,7 @@ public class Menu : MonoBehaviour
 	private void Awake()
 	{
 		if (Instance != this)
-			Destroy(this.gameObject);
+			Destroy(gameObject);
 	}
 
 	private void Start()
@@ -78,7 +79,7 @@ public class Menu : MonoBehaviour
 
 		Scene curScene = SceneManager.GetActiveScene();
 
-		// only show cencel button in other scenes other than first one
+		// only show cancel button in other scenes other than first one
 		cancelButton.gameObject.SetActive(curScene.buildIndex > 0);
 		drivingBtn.gameObject.SetActive(curScene.name != DRIVING_RANGE);
 		miniPuttBtn.gameObject.SetActive(curScene.name != MINI_PUTT);

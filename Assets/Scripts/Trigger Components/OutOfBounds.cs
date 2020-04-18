@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class OutOfBounds : MonoBehaviour
 {
@@ -7,7 +6,12 @@ public class OutOfBounds : MonoBehaviour
 
 	private void Awake()
 	{
-		reSpawnPosition = FindObjectOfType<GolfBall>().transform.position;
+		var ball = FindObjectOfType<GolfBall>();
+		
+		if (ball)
+			reSpawnPosition = ball.transform.position;
+		else
+			Debug.LogError("Ball not found");
 	}
 
 

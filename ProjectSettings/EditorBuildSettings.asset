@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/DrivingRange.unity
     guid: ec419c78149ebc840b073b54a673ddfd
   - enabled: 1
-    path: Assets/Scenes/MiniPutt.unity
+    path: Assets/Scenes/Mini Putt/mini_hole_1.unity
     guid: 45457ed894156564f98a3f591909fb6c
+  - enabled: 1
+    path: Assets/Scenes/Mini Putt/mini_hole_2.unity
+    guid: b7bd357028b2b674e9a83c3f16d3e5a7
   m_configObjects: {}

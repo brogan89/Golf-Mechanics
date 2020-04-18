@@ -7,26 +7,35 @@ public class PuttingCamera : MonoBehaviour
 	private Transform pivot;
 	private float pivotH;
 	private new Camera camera;
-	public Transform arrow;
+	
+	[SerializeField] private Transform arrowPrefab = null;
+	private Transform arrow;
 
 	private void Awake()
 	{
 		ball = FindObjectOfType<GolfBall>();
+		if (!ball)
+			return;
+
 		ball.onShotEnd.AddListener(OnShotEnd);
 		ball.onShotStart.AddListener(OnShotStart);
 
-		camera = Camera.main;
+		camera = GetComponent<Camera>();
 
 		// set up pivot
 		pivot = new GameObject("Camera Pivot").transform;
 		pivot.position = ball.transform.position;
 		transform.SetParent(pivot);
 
+		arrow = Instantiate(arrowPrefab);
 		ResetArrow();
 	}
 
 	private void OnDestroy()
 	{
+		if (!ball)
+			return;
+		
 		ball.onShotEnd.RemoveListener(OnShotEnd);
 		ball.onShotStart.RemoveListener(OnShotStart);
 	}
@@ -44,6 +53,9 @@ public class PuttingCamera : MonoBehaviour
 
 	private void Update()
 	{
+		if (!ball)
+			return;
+		
 		if (ball.isHit)
 			pivot.position = ball.transform.position;
 

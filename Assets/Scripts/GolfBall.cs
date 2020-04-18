@@ -13,8 +13,7 @@ public class GolfBall : MonoBehaviour
 	[Range(-1, 1), Tooltip("-1 left, +1 right")]
 	public float sideSpin;
 
-	public bool useMagnus;
-	public float magnusConstant = 1f;
+	public float magnusConstant = 0.03f;
 
 	[Header("Stats")]
 	public bool isHit;
@@ -44,7 +43,7 @@ public class GolfBall : MonoBehaviour
 			return;
 
 		// magnus effect
-		if (useMagnus)
+		if (magnusConstant > 0)
 			rigidbody.AddForce(magnusConstant * Vector3.Cross(rigidbody.angularVelocity, rigidbody.velocity));
 
 		// end shot conditions

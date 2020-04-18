@@ -42,8 +42,8 @@ public class Menu : MonoBehaviour
 	{
 		canvas = GetComponent<Canvas>();
 		menuButton.onClick.AddListener(() => SetMenu(true));
-		drivingBtn.onClick.AddListener(() => SceneManager.LoadScene(DRIVING_RANGE));
-		miniPuttBtn.onClick.AddListener(() => SceneManager.LoadScene(MINI_PUTT));
+		drivingBtn.onClick.AddListener(LoadDrivingRange);
+		miniPuttBtn.onClick.AddListener(LoadMiniPutt);
 		cancelButton.onClick.AddListener(() => SetMenu(false));
 		cancelButton.gameObject.SetActive(false);
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -85,9 +85,16 @@ public class Menu : MonoBehaviour
 		miniPuttBtn.gameObject.SetActive(curScene.name != MINI_PUTT);
 	}
 
-	public void ChangeScene(string sceneName)
+	private static void LoadDrivingRange()
 	{
-		SceneManager.LoadScene(sceneName);
-		SetMenu(false);
+		if (MiniPuttController.Instance)
+			Destroy(MiniPuttController.Instance.gameObject);
+		
+		SceneManager.LoadScene(DRIVING_RANGE);
+	}
+
+	private static void LoadMiniPutt()
+	{
+		SceneManager.LoadScene(MINI_PUTT);
 	}
 }

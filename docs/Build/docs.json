@@ -1,6 +1,6 @@
 {
 "companyName": "DefaultCompany",
-"productName": "Golf Mechanics",
+"productName": "Mini Golf",
 "productVersion": "0.1",
 "dataUrl": "docs.data.unityweb",
 "wasmCodeUrl": "docs.wasm.code.unityweb",
@@ -12,5 +12,5 @@
 "cacheControl": {"default": "must-revalidate"},
 "developmentBuild": false,
 "multithreading": false,
-"unityVersion": "2019.3.0f3"
+"unityVersion": "2019.3.10f1"
 }

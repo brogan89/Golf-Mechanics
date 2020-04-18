@@ -11,12 +11,11 @@ public class PuttingCamera : MonoBehaviour
 	[SerializeField] private Transform arrowPrefab = null;
 	private Transform arrow;
 
+	private const float CAM_ROTATE_SPEED = 5f;
+
 	private void Awake()
 	{
 		ball = FindObjectOfType<GolfBall>();
-		if (!ball)
-			return;
-
 		ball.onShotEnd.AddListener(OnShotEnd);
 		ball.onShotStart.AddListener(OnShotStart);
 
@@ -31,15 +30,6 @@ public class PuttingCamera : MonoBehaviour
 		ResetArrow();
 	}
 
-	private void OnDestroy()
-	{
-		if (!ball)
-			return;
-		
-		ball.onShotEnd.RemoveListener(OnShotEnd);
-		ball.onShotStart.RemoveListener(OnShotStart);
-	}
-
 	private void OnShotStart()
 	{
 		arrow.gameObject.SetActive(false);
@@ -47,7 +37,6 @@ public class PuttingCamera : MonoBehaviour
 
 	private void OnShotEnd()
 	{
-		arrow.gameObject.SetActive(true);
 		ResetArrow();
 	}
 
@@ -55,17 +44,21 @@ public class PuttingCamera : MonoBehaviour
 	{
 		if (!ball)
 			return;
-		
-		if (ball.isHit)
+
+		// always follow ball
+		if (ball)
 			pivot.position = ball.transform.position;
+		
+		// change pivot value
+		if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+			pivotH += Input.GetAxis("Mouse X") * CAM_ROTATE_SPEED;
 
-		if (!Input.GetMouseButton(0) || EventSystem.current.IsPointerOverGameObject())
-			return;
-
-		pivotH += Input.GetAxis("Mouse X") * 5;
-		pivot.eulerAngles = new Vector2(pivot.eulerAngles.x, pivotH);
-
-		ball.transform.eulerAngles = new Vector2(ball.transform.eulerAngles.x, pivotH);
+		// rotate camera pivot
+		pivot.eulerAngles = new Vector3(pivot.eulerAngles.x, pivotH, 0);
+		
+		// only rotate ball when its not currently being hit
+		if (!ball.isHit)
+			ball.transform.eulerAngles = new Vector3(0, pivotH, 0);
 
 		SetArrowRotation(pivotH);
 	}
@@ -75,6 +68,7 @@ public class PuttingCamera : MonoBehaviour
 		if (!arrow)
 			return;
 
+		arrow.gameObject.SetActive(true);
 		arrow.transform.position = ball.transform.position;
 		SetArrowRotation(camera.transform.eulerAngles.y);
 	}

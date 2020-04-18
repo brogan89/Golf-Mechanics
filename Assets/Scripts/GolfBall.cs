@@ -49,10 +49,11 @@ public class GolfBall : MonoBehaviour
 		// end shot conditions
 		if (Time.frameCount > hitFrame + 10 && rigidbody.velocity.magnitude < 0.25f)
 		{
-			Debug.Log($"Shot end: {stats}");
+			// Debug.Log($"Shot end: {stats}");
 			isHit = false;
 			rigidbody.velocity = Vector3.zero;
 			rigidbody.angularVelocity = Vector3.zero;
+			transform.rotation = Quaternion.Euler(new Vector3(0, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
 			onShotEnd?.Invoke();
 			return;
 		}

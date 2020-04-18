@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Helpers;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,7 +20,7 @@ public class MiniPuttController : Singleton<MiniPuttController>
 	private GolfBall ball;
 	
 	private int currentPlayer = 0; // placeholder for when multiplayer is added
-	[SerializeField] private List<HoleData> holeData = new List<HoleData>();
+	private readonly Dictionary<int, HoleData> holeData = new Dictionary<int, HoleData>();
 	
 	private void Start()
 	{
@@ -36,11 +37,7 @@ public class MiniPuttController : Singleton<MiniPuttController>
 		this.ball = ball;
 		cup.onBallEnterCup.AddListener(ShowScoreCard);
 		
-		holeData.Add(new HoleData
-		{
-			holeNumber = holeNumber,
-			par = par
-		});
+		holeData[holeNumber] = new HoleData(par);
 	}
 
 	private void HitBall()
@@ -49,8 +46,8 @@ public class MiniPuttController : Singleton<MiniPuttController>
 		ball.force = powerButton.power;
 		ball.HitBall();
 
-		var data = holeData.First(x => x.holeNumber == currentHole);
-		data.InCreaseScore(currentPlayer);
+		if (holeData.TryGetValue(currentHole, out var data))
+			data.InCreaseScore(currentPlayer);
 	}
 	
 	private void ShowScoreCard()
@@ -87,12 +84,16 @@ public class MiniPuttController : Singleton<MiniPuttController>
 	#endregion
 }
 
-[Serializable]
-public class HoleData
+public readonly struct HoleData
 {
-	public int holeNumber;
-	public int par;
-	public List<int> scores = new List<int>();
+	public readonly int par;
+	public readonly List<int> scores;
+
+	public HoleData(int par)
+	{
+		this.par = par;
+		scores = new List<int>();
+	}
 
 	public void InCreaseScore(int currentPlayer)
 	{
@@ -100,5 +101,10 @@ public class HoleData
 			scores.Add(1);
 		else
 			scores[currentPlayer] += 1;
+	}
+
+	public override string ToString()
+	{
+		return JsonConvert.SerializeObject(this, Formatting.Indented);
 	}
 }

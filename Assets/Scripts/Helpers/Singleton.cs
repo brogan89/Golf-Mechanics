@@ -10,12 +10,12 @@ namespace Helpers
 		{
 			if (!Instance)
 			{
-				Instance = FindObjectOfType<T>();
+				Instance = GetComponent<T>();
 				DontDestroyOnLoad(Instance);
 			}
 			else if (Instance != this)
 			{
-				Destroy(Instance.gameObject);
+				Destroy(gameObject);
 			}
 		}
 	}

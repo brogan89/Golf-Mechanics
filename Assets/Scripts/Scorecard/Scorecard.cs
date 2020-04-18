@@ -30,73 +30,72 @@ public class Scorecard : MonoBehaviour
 		holes.SetTotalText("Tot");
 	}
 
-	public void SetScorecard(List<HoleData> holeData)
+	public void SetScorecard(Dictionary<int, HoleData> holeData)
 	{
-		// SetPars(holeData.Select(x => x.par).ToList());
-		// SetScore(holeData.Select(x => x.scores).ToList());
-
+		Debug.Log($"Settings Scoreboard: {holeData.ToArrayString()}");
+		
 		for (int i = 0; i < 18; i++)
 		{
-			holes.SetHoleValue(i + 1, (i + 1).ToString());
+			var holeNum = i + 1;
+			holes.SetHoleValue(holeNum, holeNum.ToString());
 			
-			if (i < holeData.Count)
+			if (holeData.TryGetValue(holeNum, out var data))
 			{
-				pars.SetHoleValue(i + 1, holeData[i].par.ToString());
+				// pars
+				pars.SetHoleValue(holeNum, data.par.ToString());
 
-				for (int j = 0; j < holeData[i].scores.Count; j++)
-					players[j].SetHoleValue(i + 1, holeData[i].scores[j].ToString());
+				for (int j = 0; j < data.scores.Count; j++)
+					players[j].SetHoleValue(holeNum, data.scores[j].ToString());
 			}
 			else
 			{
 				// set values to empty string
-				pars.SetHoleValue(i + 1, string.Empty);
+				pars.SetHoleValue(holeNum, string.Empty);
 
 				foreach (var p in players)
-					p.SetHoleValue(i + 1, string.Empty);
+					p.SetHoleValue(holeNum, string.Empty);
 			}
 		}
-	}
-
-	private void SetPars(List<int> parValues)
-	{
+		
+		// set totals
 		pars.SetLabel("Par");
-
-		// front nine
-		pars.SetOutText(parValues.Count >= 9 
-			? parValues.GetRange(0, 8).Sum().ToString()
-			: string.Empty);
-
-		// back nine
-		if (parValues.Count >= 18)
-		{
-			pars.SetInText(parValues.GetRange(9, 17).Sum().ToString());
-			pars.SetTotalText(parValues.Sum().ToString());
-		}
-		else
-		{
-			pars.SetInText(string.Empty);
-			pars.SetTotalText(string.Empty);
-		}
-		
-		// create random par numbers for now
-		pars.SetHolesText(parValues.Select(x => x.ToString()).ToArray());
+		SetParLabelsAndTotals(holeData.Values.Select(x => x.par).ToList());
+		SetPlayersLabelsAndTotals(holeData);
 	}
 
-	private void SetScore(IReadOnlyList<List<int>> holeScores)
+	private void SetParLabelsAndTotals(List<int> parValues)
 	{
-		Debug.Log($"Scores count: {holeScores.Count}");
-		
-		for (int i = 0; i < holeScores.Count; i++)
+		pars.SetOutText(GetFront9Score(parValues).ToString());
+		pars.SetInText(GetBack9Score(parValues).ToString());
+		pars.SetTotalText(GetTotalScore(parValues).ToString());
+	}
+
+	private void SetPlayersLabelsAndTotals(IReadOnlyDictionary<int, HoleData> holeData)
+	{
+		for (int i = 0; i < players.Length; i++)
 		{
-			for (int j = 0; j < holeScores[i].Count; j++)
-			{
-				players[j].SetLabel($"Player {j + 1}");
-				players[j].SetHoleValue(i+ 1, holeScores[i][j].ToString());
-				players[j].SetOutText("");
-				players[j].SetInText("");
-				players[j].SetTotalText("");
-			}
+			players[i].SetLabel($"Player {i + 1}");
+
+			var playerScores = holeData.Values.Select(x => x.scores[i]).ToList();
+			players[i].SetOutText(GetFront9Score(playerScores).ToString());
+			players[i].SetInText(GetBack9Score(playerScores).ToString());
+			players[i].SetTotalText(GetTotalScore(playerScores).ToString());
 		}
+	}
+	
+	private static int GetFront9Score(List<int> scores)
+	{
+		return scores.GetRange(0, Mathf.Min(8, scores.Count)).Sum();
+	}
+	
+	private static int GetBack9Score(List<int> scores)
+	{
+		return scores.Count > 9 ? scores.GetRange(9, scores.Count - 1).Sum() : 0;
+	}
+	
+	private static int GetTotalScore(List<int> scores)
+	{
+		return GetFront9Score(scores) + GetBack9Score(scores);
 	}
 }
 

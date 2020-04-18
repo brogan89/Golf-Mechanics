@@ -10,7 +10,6 @@ public class MiniPuttHole : MonoBehaviour
 
 	private void Start()
 	{
-		var controller = FindObjectOfType<MiniPuttController>();
-		controller.SetHoleInfo(holeNumber, par, ball, cup);
+		MiniPuttController.Instance.SetHoleInfo(holeNumber, par, ball, cup);
 	}
 }

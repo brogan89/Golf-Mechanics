@@ -21,7 +21,7 @@ public class Menu : MonoBehaviour
 
 	private Canvas canvas;
 	private const string DRIVING_RANGE = "DrivingRange";
-	private const string MINI_PUTT = "mini_main_1";
+	private const string MINI_PUTT = "mini_hole_1";
 
 	[Header("Buttons")]
 	[SerializeField] private Button menuButton = null;

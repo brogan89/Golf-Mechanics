@@ -191,6 +191,42 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &4782980625746173399
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073224618727364714}
+  m_CullTransparentMesh: 0
+--- !u!114 &2915909382495122085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5073224618727364714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0.69411767, b: 0.34901962, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7431111776296349045
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,8 +340,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
+    m_Left: 5
+    m_Right: 5
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
@@ -4841,6 +4877,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20066bb235b8b4a41a5d97cbc8fb34ff, type: 3}
+--- !u!1 &5073224618727364714 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4314208890191482760, guid: 20066bb235b8b4a41a5d97cbc8fb34ff,
+    type: 3}
+  m_PrefabInstance: {fileID: 9059149846164854754}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3423364488869200707 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5925236365436163233, guid: 20066bb235b8b4a41a5d97cbc8fb34ff,
@@ -4853,7 +4895,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 9059149846164854754}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 5073224618727364714}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5de46e4bad9033846ab15189ce6747a5, type: 3}

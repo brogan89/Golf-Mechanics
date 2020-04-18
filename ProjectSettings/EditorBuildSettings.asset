@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Mini Putt/mini_hole_2.unity
     guid: b7bd357028b2b674e9a83c3f16d3e5a7
+  - enabled: 1
+    path: Assets/Scenes/Mini Putt/mini_hole_3.unity
+    guid: 01cac0e55b7634f42a8882942ff75a94
   m_configObjects: {}
